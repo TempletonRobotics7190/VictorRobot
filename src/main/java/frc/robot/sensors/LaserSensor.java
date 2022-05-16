@@ -1,7 +1,7 @@
 package frc.robot.sensors;
 
 import edu.wpi.first.wpilibj.Counter;
-import edu.wpi.first.wpilibj.MedianFilter;
+import edu.wpi.first.math.filter.MedianFilter;
 
 public class LaserSensor implements Sensor {
     private Counter counter;

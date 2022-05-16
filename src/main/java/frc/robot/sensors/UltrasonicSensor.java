@@ -1,7 +1,7 @@
 package frc.robot.sensors;
 
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.MedianFilter;
+import edu.wpi.first.math.filter.MedianFilter;
 
 public class UltrasonicSensor implements Sensor {
     private final MedianFilter filter = new MedianFilter(10);
