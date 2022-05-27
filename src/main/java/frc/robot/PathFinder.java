@@ -21,6 +21,7 @@ public class PathFinder {
         this.driveTrain = driveTrain;
         this.turnTimer = new Timer();
         this.turnTimer.start();
+        this.longestDist = 0.0;
         
         
     }
