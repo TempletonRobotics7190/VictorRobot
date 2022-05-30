@@ -15,13 +15,19 @@ public class DriveTrain {
   private final MotorControllerGroup rightside = new MotorControllerGroup(topright, bottomright);
   private final DifferentialDrive robotDrive
       = new DifferentialDrive(leftside, rightside);
-  private final Joystick stick = new Joystick(0);
+  public final Joystick stick = new Joystick(0);
  
   public void move(double forwardSpeed, double rotatationSpeed) {
       robotDrive.arcadeDrive(rotatationSpeed, forwardSpeed);
   }
 
   public void moveJoystick() {
-    this.move(stick.getY(), -stick.getX());
+    this.move(-stick.getY(), stick.getX());
+  }
+  public void moveJoystickX() {
+    this.move(0.0, stick.getX());
+  }
+  public void moveJoystickY() {
+    this.move(-stick.getY(), 0.0);
   }
 }
