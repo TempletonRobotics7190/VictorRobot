@@ -1,6 +1,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.sensors.LaserSensor;
 import frc.robot.sensors.Sensor;
@@ -57,36 +58,23 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    if (driveTrain.stick.getY() > 0) {
-      boolean stop = false;
-      if (frontLeftSensor.getDistance() < 1) {
-        stop = true; 
-      }
-      if (frontRightSensor.getDistance() < 1) {
-        stop = true;
-      }
-      if (frontMiddleSensor.getDistance() < 50) {
-        stop = true;
-      }
-      if (stop) {
-        driveTrain.moveJoystickX();
-        System.out.println("stopping forward");
-      }
-      else {
-        driveTrain.moveJoystick();
-      }
-    }
-    else if (driveTrain.stick.getY() < 0) {
-      if (backMiddleSensor.getDistance() < 1) {
-        System.out.println("stopping backward");
-        driveTrain.moveJoystickX();
-      }
-      else {
-        driveTrain.moveJoystick();
-      }
+    double dist = frontMiddleSensor.getDistance();
+    if (dist < 70) {
+        if (dist < 40) {
+          if (dist < 20) {
+            driveTrain.move(-0.4, driveTrain.stick.getX());
+          }
+          else {
+            driveTrain.move(-0.3, driveTrain.stick.getX());
+          }
+          
+        }
+        if (driveTrain.stick.getY() < 0) {
+          driveTrain.moveJoystickX();
+        }  
     }
     else {
-      driveTrain.move(0.0, 0.0);
+      driveTrain.moveJoystick();
     }
   }
 

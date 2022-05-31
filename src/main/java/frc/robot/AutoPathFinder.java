@@ -21,6 +21,7 @@ public class AutoPathFinder {
     }
 
     public void update() {
+        System.out.println(state);
         double leftDist = robot.frontLeftSensor.getDistance();
         double rightDist = robot.frontRightSensor.getDistance();
         double middleDist = robot.frontMiddleSensor.getDistance();
@@ -31,12 +32,12 @@ public class AutoPathFinder {
                     state = "backward";
                 }
                 else {
-                    robot.driveTrain.move(0.4, 0.0);
+                    robot.driveTrain.move(0.3, 0.0);
                 }
                 break;
             case "backward":
                 if (leftDist < 1 || rightDist < 1 || middleDist < 50) {
-                    robot.driveTrain.move(-0.4, 0.0);
+                    robot.driveTrain.move(-0.3, 0.0);
                 }
                 else {
                     robot.driveTrain.move(0.0, 0.0);
@@ -45,7 +46,7 @@ public class AutoPathFinder {
                 }
                 break;
             case "searching":
-                if (searchingTimer.get() < 3) {
+                if (searchingTimer.get() < 5) {
                     robot.driveTrain.move(0.0, 0.3);
                 }
                 else {

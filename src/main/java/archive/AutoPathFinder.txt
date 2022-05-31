@@ -2,7 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Timer;
 
-public class AutoPathFinder {
+public class PathFinder {
     private Robot robot;
     private String state;
     private double longestDist;
