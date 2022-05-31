@@ -1,72 +1,55 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.sensors.LaserSensor;
-import frc.robot.sensors.Sensor;
-import frc.robot.sensors.UltrasonicSensor;
 
 public class AutoPathFinder {
+
     private Robot robot;
     private String state;
-    private double longestDist;
-    private Timer turnTimer;
+    private Timer searchingTimer;
 
     public AutoPathFinder(Robot robot) {
         this.robot = robot;
-        this.turnTimer = new Timer();
-        this.turnTimer.start();
-        this.longestDist = 0.0;
+        this.searchingTimer = new Timer();
         
     }
 
     public void init() {
-        
-        this.turnTimer.reset();
-        this.state = "turning";
+        state = "forward";
+        this.searchingTimer.start();
         
     }
 
     public void update() {
-        System.out.println(state);
+        double leftDist = robot.frontLeftSensor.getDistance();
+        double rightDist = robot.frontRightSensor.getDistance();
+        double middleDist = robot.frontMiddleSensor.getDistance();
         switch(state) {
-            case "turning":
-                if (turnTimer.get() < 7.0) {
-                    double dist = robot.frontMiddleSensor.getDistance();
-                    if (dist > longestDist) {
-                        longestDist = dist;
-                        System.out.print("BEST DIST: ");
-                        System.out.println(robot.frontMiddleSensor.getDistance());
-                    }
-                    robot.driveTrain.move(0.0, 0.35);
+            case "forward":
+                if (leftDist < 1 || rightDist < 1 || middleDist < 50) {
+                    robot.driveTrain.move(0.0, 0.0);
+                    state = "backward";
                 }
                 else {
-                    if (longestDist-robot.frontMiddleSensor.getDistance() < 20) {
-                        state = "forward";
-                        robot.driveTrain.move(0, 0);
-                    }
-                    else {
-                        robot.driveTrain.move(0.0, 0.3);
-                        System.out.print("SEARCHING: ");
-                        System.out.println(robot.frontMiddleSensor.getDistance());
-                    }
+                    robot.driveTrain.move(0.4, 0.0);
                 }
                 break;
-            
-            case "forward":
-                robot.driveTrain.move(0.3, 0.0);
-                if (robot.frontLeftSensor.getDistance() <= 1 || robot.frontRightSensor.getDistance() <= 1) {
-                    state = "tweakangle";
+            case "backward":
+                if (leftDist < 1 || rightDist < 1 || middleDist < 50) {
+                    robot.driveTrain.move(-0.4, 0.0);
+                }
+                else {
+                    robot.driveTrain.move(0.0, 0.0);
+                    state = "searching";
+                    searchingTimer.reset();
                 }
                 break;
-            
-            case "tweakangle":
-                if (robot.frontLeftSensor.getDistance() <= 1) {
+            case "searching":
+                if (searchingTimer.get() < 3) {
                     robot.driveTrain.move(0.0, 0.3);
                 }
-                else if (robot.frontRightSensor.getDistance() <= 1) {
-                    robot.driveTrain.move(0.0, -0.3);
-                }
                 else {
+                    robot.driveTrain.move(0.0, 0.0);
                     state = "forward";
                 }
                 break;

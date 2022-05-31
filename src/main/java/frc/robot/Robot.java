@@ -42,14 +42,12 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    System.out.println("INIT");
     pathFinder.init();
   }
 
   @Override
   public void autonomousPeriodic() {
     pathFinder.update();
-    System.out.println("PERIODIC");
   }
 
   @Override
