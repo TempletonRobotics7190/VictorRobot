@@ -24,10 +24,11 @@ public class DriveTrain {
   public void moveJoystick() {
     this.move(-stick.getY(), stick.getX());
   }
+  public void moveJoystickX(double forwardSpeed) {
+    this.move(forwardSpeed, stick.getX());
+  }
   public void moveJoystickX() {
     this.move(0.0, stick.getX());
   }
-  public void moveJoystickY() {
-    this.move(-stick.getY(), 0.0);
-  }
+
 }

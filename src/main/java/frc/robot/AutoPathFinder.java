@@ -32,12 +32,12 @@ public class AutoPathFinder {
                     state = "backward";
                 }
                 else {
-                    robot.driveTrain.move(0.3, 0.0);
+                    robot.driveTrain.move(Constants.AUTO_Y_SPEED, 0.0);
                 }
                 break;
             case "backward":
                 if (leftDist < 1 || rightDist < 1 || middleDist < 50) {
-                    robot.driveTrain.move(-0.3, 0.0);
+                    robot.driveTrain.move(-Constants.AUTO_Y_SPEED, 0.0);
                 }
                 else {
                     robot.driveTrain.move(0.0, 0.0);
@@ -47,7 +47,7 @@ public class AutoPathFinder {
                 break;
             case "searching":
                 if (searchingTimer.get() < 5) {
-                    robot.driveTrain.move(0.0, 0.3);
+                    robot.driveTrain.move(0.0, Constants.AUTO_X_SPEED);
                 }
                 else {
                     robot.driveTrain.move(0.0, 0.0);
